@@ -44,7 +44,34 @@ public class Pawn {
     }
 
     public void Move(MovementType movementType, int newX, int newY) {
-        throw new UnsupportedOperationException("Need to implement Pawn.Move()") ;
+        if (movementType == MovementType.MOVE) {
+            if (chessBoard.IsLegalBoardPosition(newX, newY) && xCoordinate == newX) {
+                if (pieceColor == PieceColor.BLACK && yCoordinate - newY == 1) {
+                    chessBoard.getPieces()[xCoordinate][yCoordinate] = null;
+                    yCoordinate = newY;
+                    chessBoard.getPieces()[xCoordinate][yCoordinate] = this;
+                } else if (pieceColor == PieceColor.WHITE && yCoordinate - newY == -1) {
+                    chessBoard.getPieces()[xCoordinate][yCoordinate] = null;
+                    yCoordinate = newY;
+                    chessBoard.getPieces()[xCoordinate][yCoordinate] = this;
+                }
+            }
+        } else {
+            if (pieceColor == PieceColor.BLACK && Math.abs(xCoordinate - newX) == 1 &&
+                    yCoordinate - newY == 1 && chessBoard.getPieces()[newX][newY].pieceColor == PieceColor.WHITE) {
+                chessBoard.getPieces()[xCoordinate][yCoordinate] = null;
+                xCoordinate = newX;
+                yCoordinate = newY;
+                chessBoard.getPieces()[xCoordinate][yCoordinate] = this;
+
+            } else if (pieceColor == PieceColor.WHITE && Math.abs(xCoordinate - newX) == 1 &&
+                    yCoordinate - newY == -1 && chessBoard.getPieces()[newX][newY].pieceColor == PieceColor.BLACK) {
+                chessBoard.getPieces()[xCoordinate][yCoordinate] = null;
+                xCoordinate = newX;
+                yCoordinate = newY;
+                chessBoard.getPieces()[xCoordinate][yCoordinate] = this;
+            }
+        }
     }
 
     @Override
